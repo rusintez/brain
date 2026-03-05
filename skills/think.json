@@ -1,0 +1,21 @@
+{
+  "name": "think",
+  "description": "Escalate to smarter models for complex reasoning",
+  "tools": {
+    "reason": {
+      "description": "Ask a reasoning model (DeepSeek-R1) to think through a complex problem step-by-step",
+      "command": "brain -m r1 --simple {question}",
+      "args": ["question"]
+    },
+    "ask_smart": {
+      "description": "Ask a larger model (4B) for help with a difficult question",
+      "command": "brain -m 4b --simple {question}",
+      "args": ["question"]
+    },
+    "ask_tiny": {
+      "description": "Quick answer from tiny model (0.6B) - fast but less capable",
+      "command": "brain -m 0.6b --simple {question}",
+      "args": ["question"]
+    }
+  }
+}

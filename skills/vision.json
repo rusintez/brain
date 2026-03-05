@@ -1,0 +1,26 @@
+{
+  "name": "vision",
+  "description": "Analyze images - extract text, labels, descriptions",
+  "tools": {
+    "ocr": {
+      "description": "Extract text from image(s) using OCR",
+      "command": "vision-cli ocr {path}",
+      "args": ["path"]
+    },
+    "label": {
+      "description": "Get labels and description for image(s) - use for understanding what's in images",
+      "command": "vision-cli label {path} --vlm --json",
+      "args": ["path"]
+    },
+    "describe": {
+      "description": "Describe what's in an image using AI vision (detailed)",
+      "command": "vision-cli describe {path}",
+      "args": ["path"]
+    },
+    "analyze": {
+      "description": "Full image analysis (text + keywords + classifications)",
+      "command": "vision-cli analyze {path} --json",
+      "args": ["path"]
+    }
+  }
+}

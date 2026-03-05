@@ -1,0 +1,46 @@
+{
+  "name": "files",
+  "description": "File operations - list, find, move, copy",
+  "tools": {
+    "ls": {
+      "description": "List files in a directory (use . for current dir)",
+      "command": "ls -la {path}",
+      "args": ["path"]
+    },
+    "find_files": {
+      "description": "Find files by name pattern (e.g. *.png, report*)",
+      "command": "find {path} -name '{pattern}' -type f 2>/dev/null | head -20",
+      "args": ["path", "pattern"]
+    },
+    "search": {
+      "description": "Search file contents for text (ripgrep)",
+      "command": "rg --color=never -l '{pattern}' {path} 2>/dev/null | head -20",
+      "args": ["pattern", "path"]
+    },
+    "move": {
+      "description": "Move/rename a file",
+      "command": "mv {source} {dest} && echo 'Moved {source} to {dest}'",
+      "args": ["source", "dest"]
+    },
+    "copy": {
+      "description": "Copy a file",
+      "command": "cp {source} {dest} && echo 'Copied {source} to {dest}'",
+      "args": ["source", "dest"]
+    },
+    "mkdir": {
+      "description": "Create a directory",
+      "command": "mkdir -p {path} && echo 'Created {path}'",
+      "args": ["path"]
+    },
+    "rm": {
+      "description": "Delete a file (careful!)",
+      "command": "rm {path} && echo 'Deleted {path}'",
+      "args": ["path"]
+    },
+    "size": {
+      "description": "Show file/folder size",
+      "command": "du -sh {path}",
+      "args": ["path"]
+    }
+  }
+}
