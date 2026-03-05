@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "version": "0.1.2",
+    "description": "Brain eval suite - testing tool-calling capabilities"
+  },
+  "cases": [
+    {
+      "id": "low-01",
+      "difficulty": "low",
+      "category": "file-listing",
+      "prompt": "List files in the current directory",
+      "setup": null,
+      "expect": {
+        "tools_used": ["ls"],
+        "must_contain": ["eval"],
+        "must_not_contain": [],
+        "max_turns": 2
+      }
+    },
+    {
+      "id": "low-02",
+      "difficulty": "low",
+      "category": "file-reading",
+      "prompt": "Read the contents of Package.swift",
+      "setup": null,
+      "expect": {
+        "tools_used": ["read"],
+        "must_contain": ["brain", "swift"],
+        "must_not_contain": [],
+        "max_turns": 2
+      }
+    },
+    {
+      "id": "low-03",
+      "difficulty": "low",
+      "category": "bash",
+      "prompt": "What is today's date?",
+      "setup": null,
+      "expect": {
+        "tools_used": ["bash"],
+        "must_contain": ["2026", "Mar"],
+        "must_not_contain": [],
+        "max_turns": 2
+      }
+    },
+    {
+      "id": "low-04",
+      "difficulty": "low",
+      "category": "file-listing",
+      "prompt": "How many Swift files are in Sources/?",
+      "setup": null,
+      "expect": {
+        "tools_used": ["ls", "bash", "find_files"],
+        "must_contain": ["4", "four"],
+        "must_not_contain": [],
+        "max_turns": 3
+      }
+    },
+    {
+      "id": "mid-01",
+      "difficulty": "mid",
+      "category": "search-read",
+      "prompt": "Find where buildSystemPrompt is defined and show me the first 10 lines of that function",
+      "setup": null,
+      "expect": {
+        "tools_used": ["grep", "peek", "read"],
+        "must_contain": ["Skills.swift", "func buildSystemPrompt"],
+        "must_not_contain": [],
+        "max_turns": 4
+      }
+    },
+    {
+      "id": "mid-02",
+      "difficulty": "mid",
+      "category": "search-read",
+      "prompt": "What models are available? Look in the code to find the model configurations.",
+      "setup": null,
+      "expect": {
+        "tools_used": ["grep", "read", "peek"],
+        "must_contain": ["0.6b", "1.7b", "4b", "r1"],
+        "must_not_contain": [],
+        "max_turns": 4
+      }
+    },
+    {
+      "id": "mid-03",
+      "difficulty": "mid",
+      "category": "file-create",
+      "prompt": "Create a file called eval/test-output.txt with the content 'Hello from brain eval'",
+      "setup": "rm -f eval/test-output.txt",
+      "expect": {
+        "tools_used": ["write"],
+        "must_contain": ["created", "wrote", "test-output.txt"],
+        "must_not_contain": [],
+        "max_turns": 2,
+        "verify_file": {
+          "path": "eval/test-output.txt",
+          "contains": "Hello from brain eval"
+        }
+      }
+    },
+    {
+      "id": "mid-04",
+      "difficulty": "mid",
+      "category": "analysis",
+      "prompt": "What skills are available? List all the JSON files in the skills directory and summarize what each one does.",
+      "setup": null,
+      "expect": {
+        "tools_used": ["ls", "read"],
+        "must_contain": ["files", "investigate", "think", "vision"],
+        "must_not_contain": [],
+        "max_turns": 5
+      }
+    },
+    {
+      "id": "high-01",
+      "difficulty": "high",
+      "category": "investigation",
+      "prompt": "Investigate how tool execution works in this codebase. Find where tools are parsed and executed, and explain the flow.",
+      "setup": null,
+      "expect": {
+        "tools_used": ["grep", "peek", "read"],
+        "must_contain": ["parseToolCall", "executeTool", "Tools.swift"],
+        "must_not_contain": [],
+        "max_turns": 6
+      }
+    },
+    {
+      "id": "high-02",
+      "difficulty": "high",
+      "category": "multi-step",
+      "prompt": "Find all TODO comments in the codebase and create a summary file at eval/todos.md listing them",
+      "setup": "rm -f eval/todos.md",
+      "expect": {
+        "tools_used": ["grep", "bash", "write"],
+        "must_contain": [],
+        "must_not_contain": [],
+        "max_turns": 5,
+        "verify_file": {
+          "path": "eval/todos.md",
+          "exists": true
+        }
+      }
+    }
+  ]
+}
