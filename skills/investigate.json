@@ -1,0 +1,16 @@
+{
+  "name": "investigate",
+  "description": "Code investigation - search patterns and read focused sections",
+  "tools": {
+    "grep": {
+      "description": "Search for regex pattern in files, shows matches with line numbers",
+      "command": "rg --color=never -n '{pattern}' {path} 2>/dev/null | head -50",
+      "args": ["pattern", "path"]
+    },
+    "peek": {
+      "description": "Read specific lines from file (offset=start line, limit=num lines)",
+      "command": "awk 'NR>={offset} && NR<{offset}+{limit} {print NR\": \"$0}' {path}",
+      "args": ["path", "offset", "limit"]
+    }
+  }
+}
