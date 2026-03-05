@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          xcodebuild build -scheme brain -configuration Release \
+            -destination 'platform=macOS' -derivedDataPath .derived \
+            2>&1 | grep -E "(error:|warning:|BUILD)" || true
+
+      - name: Verify build
+        run: |
+          test -f .derived/Build/Products/Release/brain || exit 1
+          .derived/Build/Products/Release/brain --help
+
+      - name: Package
+        run: |
+          mkdir -p brain-darwin-arm64
+          cp .derived/Build/Products/Release/brain brain-darwin-arm64/
+          cp -r .derived/Build/Products/Release/mlx-swift_Cmlx.bundle brain-darwin-arm64/
+          cp -r skills brain-darwin-arm64/
+          tar -czvf brain-darwin-arm64.tar.gz brain-darwin-arm64
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: brain-darwin-arm64.tar.gz
