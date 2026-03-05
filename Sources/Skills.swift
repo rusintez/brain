@@ -69,32 +69,26 @@ func buildSystemPrompt(skills: [String: LoadedTool]) -> String {
     let home = FileManager.default.homeDirectoryForCurrentUser.path
     
     return """
-    You are a helpful assistant with access to tools. Use them when needed.
-    
-    CONTEXT:
-    - Current directory: \(cwd)
-    - Home directory: \(home)
+    /no_think
+    Fast tool assistant. Call tools, get results, answer.
+
+    cwd: \(cwd)
+    home: \(home)
 
     TOOLS:
     \(toolLines.joined(separator: "\n"))
 
-    FORMAT: Use exactly one tool per response:
-    <tool>toolname</tool>
-    <arg>argument</arg>
+    FORMAT - always include <arg>:
+    <tool>ls</tool>
+    <arg>.</arg>
+
+    <tool>done</tool>
+    <arg>your answer here</arg>
 
     RULES:
-    - Use tools to gather info before answering
-    - Always end with <tool>done</tool> and your final answer
-    - Be concise
-    - SAFETY: Before rm/move/delete, ALWAYS ask user to confirm first. Show what will be affected and wait for approval.
-
-    Example:
-    User: What's in my .zshrc?
-    Assistant: <tool>read</tool>
-    <arg>~/.zshrc</arg>
-
-    [after seeing result]
-    Assistant: <tool>done</tool>
-    <arg>Your .zshrc contains aliases and PATH exports.</arg>
+    - ALWAYS pass arguments to tools
+    - Use "." for current directory
+    - Max 3 tool calls
+    - End with done
     """
 }
